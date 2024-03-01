@@ -2,7 +2,7 @@
 name = "function_timer"
 version = "0.0.5"
 authors = [
-  { "name"="Ghazanfar Shahbaz", "email"="ghazanfarshahbaz2409@gmail.com" },
+  { name="Ghazanfar Shahbaz", email="ghazanfarshahbaz2409@gmail.com" },
 ]
 description = "A small package made to wrap functions in a timer"
 readme = "README.md"
