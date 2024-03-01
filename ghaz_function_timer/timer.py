@@ -13,7 +13,7 @@ Edit Log:
 
 # STANDARD LIBRARY IMPORTS
 from time import time
-from typing import Any, cast
+from typing import Any, Optional, cast
 
 # THIRD PARTY LIBRARY IMPORTS
 from stringcolor import cs as color
@@ -107,13 +107,13 @@ class Timer:
             if self.print_response:
                 print(response)
 
-            self.__time_function__()
+            self.__time_function__(function_name=func.__name__)
 
             return response
 
         return wrapper
 
-    def __time_function__(self) -> None:
+    def __time_function__(self, function_name: Optional[str] = None) -> None:
         """
         Calculate and return the execution time of a function.
 
@@ -128,7 +128,9 @@ class Timer:
         execution_time = round(time() - cast(float, self.start_time), 4)
 
         if self.print_time:
-            self.print_and_format_time("Execution time:", execution_time)
+            self.print_and_format_time(
+                "Execution time: ", execution_time, function_name
+            )
 
     def get_total_time(self) -> float:
         """
@@ -140,7 +142,12 @@ class Timer:
 
         return round(time() - self.total_time, 4)
 
-    def print_and_format_time(self, title_string: str, p_time=None) -> None:
+    def print_and_format_time(
+        self,
+        title_string: str,
+        p_time: Optional[float] = None,
+        function_name: Optional[str] = None,
+    ) -> None:
         """
         Prints time in a formatted way.
         """
@@ -149,9 +156,21 @@ class Timer:
         if not p_time:
             p_time = self.get_total_time()
 
-        time_string: str = f"{color(f'{round(p_time, 4)}', 'green')} seconds"
+        function_name_string = (
+            f"({color('Function:', 'silver')} {color(f'{function_name}', 'gold2')})"
+            if function_name
+            else ""
+        )
         title_string = color(title_string, "dodgerblue")
 
-        print(f"{title_string:<40} {time_string:>30}")
+        full_title_string: str = (
+            f"{function_name_string} {title_string}"
+            if function_name_string
+            else title_string
+        )
+        time_string: str = f"{color(f'{round(p_time, 4)}', 'green')} seconds".rstrip()
+
+        print(f"{full_title_string:<80} {time_string:>30}")
+
         if extra_line:
             print()
