@@ -16,6 +16,7 @@ from time import time
 from typing import Any, Optional, cast
 
 # THIRD PARTY LIBRARY IMPORTS
+from logging import getLogger
 from stringcolor import cs as color
 
 # LOCAL LIBRARY IMPORTS
@@ -31,7 +32,7 @@ class Timer:
 
     total_time: float = time()
 
-    def __init__(self, print_time=False, print_response=False):
+    def __init__(self, print_time=False, print_response=False, log_not_print=False):
         """
         Initialize an instance of the Timer class.
 
@@ -46,6 +47,7 @@ class Timer:
 
         self.print_time: bool = print_time
         self.print_response: bool = print_response
+        self.log_not_print: bool = log_not_print
 
         self.start_time = None
 
@@ -170,7 +172,10 @@ class Timer:
         )
         time_string: str = f"{color(f'{round(p_time, 4)}', 'green')} seconds".rstrip()
 
-        print(f"{full_title_string:<80} {time_string:>30}")
+        if self.log_not_print:
+            getLogger().info("%s %s", full_title_string, time_string)
+        else:
+            print(f"{full_title_string:<80} {time_string:>30}")
 
-        if extra_line:
-            print()
+            if extra_line:
+                print()
