@@ -153,6 +153,14 @@ class Timer:
         """
         Prints time in a formatted way.
         """
+        uncolored_time_string = str(round(p_time, 4)) if p_time else ""
+
+        if self.log_not_print:
+            getLogger().info(
+                "(%s) %s %s", function_name, title_string, uncolored_time_string
+            )
+            return
+
         extra_line: bool = p_time is not None
 
         if not p_time:
@@ -172,10 +180,7 @@ class Timer:
         )
         time_string: str = f"{color(f'{round(p_time, 4)}', 'green')} seconds".rstrip()
 
-        if self.log_not_print:
-            getLogger().info("%s %s", full_title_string, time_string)
-        else:
-            print(f"{full_title_string:<80} {time_string:>30}")
+        print(f"{full_title_string:<80} {time_string:>30}")
 
-            if extra_line:
-                print()
+        if extra_line:
+            print()

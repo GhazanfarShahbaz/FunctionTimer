@@ -1,6 +1,6 @@
 [project]
 name = "ghaz_function_timer"
-version = "0.0.2"
+version = "0.0.5"
 authors = [
   { name="Ghazanfar Shahbaz", email="ghazanfarshahbaz2409@gmail.com" },
 ]
